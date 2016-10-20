@@ -19,6 +19,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var todaydate: UILabel!
     @IBOutlet weak var mytabelview: UITableView!
     
+    @IBOutlet weak var startActivity: UIActivityIndicatorView!
     let locationManager = CLLocationManager()
     var currentLocation:CLLocation!
     
@@ -81,6 +82,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func downloadForecast(completed: @escaping DownloadCompleted){
         let currenturl = URL(string: FORECAST_URL)!
         
+        self.startActivity.startAnimating()
         Alamofire.request(currenturl).responseJSON {
             response in
             let result = response.result
@@ -99,6 +101,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func updateUI(){
+         self.startActivity.stopAnimating()
         self.city.text = currentWeather.cityName
         self.todaydate.text = currentWeather.date
         self.degreetext.text = "\(currentWeather.currentTemp)°"
